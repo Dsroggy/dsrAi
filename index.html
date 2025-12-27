@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DSR OGGY AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-box">
+      <img src="logo.png" alt="DSR OGGY">
+      <span>DSR OGGY AI</span>
+    </div>
+
+    <button class="new-chat" onclick="location.reload()">＋ New Chat</button>
+
+    <div class="history">
+      <p>Yesterday</p>
+      <div class="chat-item">Greeting & Assistance</div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="chat-area" id="chatArea">
+      <div class="welcome">
+        <img src="logo.png" class="center-logo">
+        <h1>How can I help you?</h1>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-box">
+      <button id="micBtn" title="Voice Input">🎤</button>
+
+      <input type="file" id="fileInput" hidden>
+      <button id="fileBtn" title="Attach File">📎</button>
+
+      <input type="text" id="userInput" placeholder="Message DSR OGGY AI...">
+
+      <button id="sendBtn">➤</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
