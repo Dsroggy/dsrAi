@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login | DSR AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-page">
+
+<div class="login-card">
+  <img src="logo.png" class="login-logo">
+  <h1>Welcome to <span>DSR AI</span></h1>
+  <p>Your personal smart assistant</p>
+
+  <input id="user" placeholder="Enter username">
+  <button id="btn">Continue</button>
+
+  <p id="status" style="color:red;margin-top:10px;"></p>
+</div>
+
+<script>
+const BACKEND = "https://dsr-ai-backend.onrender.com";
+
+document.getElementById("btn").onclick = async function () {
+  const u = document.getElementById("user").value.trim();
+  const status = document.getElementById("status");
+
+  if (!u) {
+    status.innerText = "Username required";
+    return;
+  }
+
+  status.innerText = "Connecting...";
+
+  try {
+    const res = await fetch(BACKEND + "/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: u })
+    });
+
+    if (!res.ok) {
+      status.innerText = "Backend error";
+      return;
+    }
+
+    localStorage.setItem("dsr_user", u);
+
+    // force redirect
+    window.location.href = "index.html";
+
+  } catch (err) {
+    status.innerText = "Backend not reachable";
+  }
+};
+</script>
+
+</body>
+</html>

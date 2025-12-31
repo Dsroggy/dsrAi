@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSR AI Chat</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="chat-page">
+
+<div class="chat-box">
+  <div class="top">
+    <div class="brand">
+      <img src="logo.png" class="logo-small">
+      <span>DSR AI</span>
+    </div>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div id="chat"></div>
+
+  <div class="input">
+    <input id="msg" placeholder="Message DSR AI…">
+    <button onclick="send()">Send</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

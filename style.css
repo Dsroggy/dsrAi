@@ -1,0 +1,122 @@
+/* COMMON */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+}
+
+/* ================= LOGIN PAGE ================= */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  width: 320px;
+  background: #111;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,255,200,0.15);
+}
+
+.login-logo {
+  width: 90px;
+  margin-bottom: 15px;
+}
+
+.login-card h1 span {
+  color: #00ffcc;
+}
+
+.login-card p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: none;
+}
+
+.login-card button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #00ffcc;
+  border: none;
+  cursor: pointer;
+}
+
+/* ================= CHAT PAGE ================= */
+.chat-page {
+  height: 100vh;
+}
+
+.chat-box {
+  max-width: 420px;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  padding: 10px;
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-small {
+  width: 30px;
+}
+
+#chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.msg {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.user { color: #00ffcc; }
+.ai { color: #ffcc00; }
+
+.input {
+  display: flex;
+  padding: 10px;
+  background: #111;
+}
+
+.input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+}
+
+.input button {
+  margin-left: 5px;
+  padding: 8px;
+  background: #00ffcc;
+  border: none;
+  border-radius: 6px;
+}
