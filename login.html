@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login | DSR AI</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -9,51 +10,46 @@
 <body class="login-page">
 
 <div class="login-card">
-  <img src="logo.png" class="login-logo">
-  <h1>Welcome to <span>DSR AI</span></h1>
-  <p>Your personal smart assistant</p>
+  <img src="logo.png" class="login-logo" alt="DSR AI">
+  <h2>Welcome to <span>DSR AI</span></h2>
+  <p>Enter your name to continue</p>
 
-  <input id="user" placeholder="Enter username">
-  <button id="btn">Continue</button>
+  <input id="username" type="text" placeholder="Your name">
+  <button onclick="login()">Continue</button>
 
-  <p id="status" style="color:red;margin-top:10px;"></p>
+  <p id="error" style="color:#ff5555;margin-top:10px;"></p>
 </div>
 
 <script>
-const BACKEND = "https://backend-2-73tw.onrender.com";
+/* 🔧 CHANGE THIS URL EVERY TIME LOCALTUNNEL RESTARTS */
+const BACKEND = "https://abc.loca.lt";
 
-document.getElementById("btn").onclick = async function () {
-  const u = document.getElementById("user").value.trim();
-  const status = document.getElementById("status");
+/* already logged in */
+if (localStorage.getItem("dsr_user")) {
+  window.location.href = "index.html";
+}
 
-  if (!u) {
-    status.innerText = "Username required";
+function login() {
+  const user = document.getElementById("username").value.trim();
+  const error = document.getElementById("error");
+
+  if (!user) {
+    error.innerText = "Please enter your name";
     return;
   }
 
-  status.innerText = "Connecting...";
+  /* save login locally */
+  localStorage.setItem("dsr_user", user);
 
-  try {
-    const res = await fetch(BACKEND + "/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: u })
-    });
+  /* optional backend login ping (safe) */
+  fetch(BACKEND + "/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: user })
+  }).catch(() => {});
 
-    if (!res.ok) {
-      status.innerText = "Backend error";
-      return;
-    }
-
-    localStorage.setItem("dsr_user", u);
-
-    // force redirect
-    window.location.href = "index.html";
-
-  } catch (err) {
-    status.innerText = "Backend not reachable";
-  }
-};
+  window.location.href = "index.html";
+}
 </script>
 
 </body>
