@@ -1,4 +1,4 @@
-const BACKEND = "https://backend-ynd0.onrender.com";
+const BACKEND = "https://backend-2-73tw.onrender.com";
 const user = localStorage.getItem("dsr_user");
 
 // agar login nahi hai → login page
