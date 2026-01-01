@@ -1,4 +1,4 @@
-const BACKEND = "https://dsr-ai-backend.onrender.com";
+const BACKEND = "https://backend-ynd0.onrender.com";
 const user = localStorage.getItem("dsr_user");
 
 // agar login nahi hai → login page
