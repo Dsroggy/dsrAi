@@ -1,4 +1,4 @@
-const BACKEND = "https://slow-flies-float.loca.lt"; // ✅ NO SPACE
+const BACKEND = "https://slow-flies-float.loca.lt";
 
 const user = localStorage.getItem("dsr_user");
 if (!user) location.href = "login.html";
@@ -9,16 +9,30 @@ render();
 
 function render() {
   chatDiv.innerHTML = "";
+
   chats.forEach((c, i) => {
-    chatDiv.innerHTML += `
-      <div class="msg ${c.by}">
-        ${c.text}
-        <div class="actions">
-          <span onclick="copy('${c.text}')">📋</span>
-          <span onclick="delChat(${i})">🗑️</span>
-        </div>
-      </div>`;
+    const msg = document.createElement("div");
+    msg.className = `msg ${c.by}`;
+    msg.textContent = c.text;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const copyBtn = document.createElement("span");
+    copyBtn.textContent = "📋";
+    copyBtn.onclick = () => copy(i);
+
+    const delBtn = document.createElement("span");
+    delBtn.textContent = "🗑️";
+    delBtn.onclick = () => delChat(i);
+
+    actions.appendChild(copyBtn);
+    actions.appendChild(delBtn);
+
+    msg.appendChild(actions);
+    chatDiv.appendChild(msg);
   });
+
   chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
@@ -27,13 +41,14 @@ function save() {
 }
 
 function send() {
-  const m = document.getElementById("msg").value.trim();
+  const input = document.getElementById("msg");
+  const m = input.value.trim();
   if (!m) return;
 
   chats.push({ by: "user", text: m });
   save();
   render();
-  document.getElementById("msg").value = "";
+  input.value = "";
 
   fetch(BACKEND + "/chat", {
     method: "POST",
@@ -42,19 +57,20 @@ function send() {
   })
     .then(r => r.json())
     .then(d => {
-      chats.push({ by: "ai", text: d.reply });
+      chats.push({ by: "ai", text: d.reply || "No reply" });
       save();
       render();
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       chats.push({ by: "ai", text: "Backend not responding" });
       save();
       render();
     });
 }
 
-function copy(t) {
-  navigator.clipboard.writeText(t);
+function copy(i) {
+  navigator.clipboard.writeText(chats[i].text);
 }
 
 function delChat(i) {
@@ -73,7 +89,8 @@ function startVoice() {
   const rec = new (window.SpeechRecognition || webkitSpeechRecognition)();
   rec.lang = "en-IN";
   rec.onresult = e => {
-    document.getElementById("msg").value = e.results[0][0].transcript;
+    document.getElementById("msg").value =
+      e.results[0][0].transcript;
   };
   rec.start();
 }
