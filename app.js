@@ -1,58 +1,79 @@
-const BACKEND = " https://vast-weeks-shop.loca.lt";
+const BACKEND = "https://slow-flies-float.loca.lt"; // ✅ NO SPACE
+
 const user = localStorage.getItem("dsr_user");
+if (!user) location.href = "login.html";
 
-// agar login nahi hai → login page
-if (!user) {
-  window.location.replace("login.html");
+const chatDiv = document.getElementById("chat");
+let chats = JSON.parse(localStorage.getItem("dsr_chats") || "[]");
+render();
+
+function render() {
+  chatDiv.innerHTML = "";
+  chats.forEach((c, i) => {
+    chatDiv.innerHTML += `
+      <div class="msg ${c.by}">
+        ${c.text}
+        <div class="actions">
+          <span onclick="copy('${c.text}')">📋</span>
+          <span onclick="delChat(${i})">🗑️</span>
+        </div>
+      </div>`;
+  });
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
-const chat = document.getElementById("chat");
-const msg = document.getElementById("msg");
-
-function add(text, cls) {
-  const d = document.createElement("div");
-  d.className = "msg " + cls;
-  d.innerText = text;
-  chat.appendChild(d);
-  chat.scrollTop = chat.scrollHeight;
+function save() {
+  localStorage.setItem("dsr_chats", JSON.stringify(chats));
 }
 
-async function loadHistory() {
-  try {
-    const r = await fetch(`${BACKEND}/history/${user}`);
-    const h = await r.json();
-    h.forEach(x => {
-      add("You: " + x.user, "user");
-      add("AI: " + x.ai, "ai");
+function send() {
+  const m = document.getElementById("msg").value.trim();
+  if (!m) return;
+
+  chats.push({ by: "user", text: m });
+  save();
+  render();
+  document.getElementById("msg").value = "";
+
+  fetch(BACKEND + "/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: m })
+  })
+    .then(r => r.json())
+    .then(d => {
+      chats.push({ by: "ai", text: d.reply });
+      save();
+      render();
+    })
+    .catch(() => {
+      chats.push({ by: "ai", text: "Backend not responding" });
+      save();
+      render();
     });
-  } catch {
-    add("AI: Backend connection failed", "ai");
-  }
 }
-loadHistory();
 
-async function send() {
-  const text = msg.value.trim();
-  if (!text) return;
+function copy(t) {
+  navigator.clipboard.writeText(t);
+}
 
-  add("You: " + text, "user");
-  msg.value = "";
-
-  try {
-    const r = await fetch(`${BACKEND}/chat`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user, message: text })
-    });
-
-    const d = await r.json();
-    add("AI: " + d.reply, "ai");
-  } catch {
-    add("AI: Backend not responding", "ai");
-  }
+function delChat(i) {
+  chats.splice(i, 1);
+  save();
+  render();
 }
 
 function logout() {
-  localStorage.removeItem("dsr_user");
-  window.location.replace("login.html");
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+/* 🎤 Voice */
+function startVoice() {
+  const rec = new (window.SpeechRecognition || webkitSpeechRecognition)();
+  rec.lang = "en-IN";
+  rec.onresult = e => {
+    document.getElementById("msg").value = e.results[0][0].transcript;
+  };
+  rec.start();
 }

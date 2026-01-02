@@ -1,54 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login | DSR AI</title>
-<link rel="stylesheet" href="style.css">
+  <title>Login | DSR AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="login-page">
 
-<div class="login-card">
-  <img src="logo.png" class="login-logo" alt="DSR AI">
-  <h2>Welcome to <span>DSR AI</span></h2>
-  <p>Enter your name to continue</p>
+<div class="login-box">
+  <img src="logo.png" class="logo">
+  <h2>DSR AI</h2>
 
-  <input id="username" type="text" placeholder="Your name">
+  <input id="username" placeholder="Enter your name">
   <button onclick="login()">Continue</button>
 
-  <p id="error" style="color:#ff5555;margin-top:10px;"></p>
+  <p id="err"></p>
 </div>
 
 <script>
-/* 🔧 CHANGE THIS URL EVERY TIME LOCALTUNNEL RESTARTS */
-const BACKEND = "https://abc.loca.lt";
-
-/* already logged in */
-if (localStorage.getItem("dsr_user")) {
-  window.location.href = "index.html";
-}
-
-function login() {
-  const user = document.getElementById("username").value.trim();
-  const error = document.getElementById("error");
-
-  if (!user) {
-    error.innerText = "Please enter your name";
-    return;
-  }
-
-  /* save login locally */
-  localStorage.setItem("dsr_user", user);
-
-  /* optional backend login ping (safe) */
-  fetch(BACKEND + "/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: user })
-  }).catch(() => {});
-
-  window.location.href = "index.html";
+function login(){
+  const u = document.getElementById("username").value.trim();
+  if(!u){ document.getElementById("err").innerText="Name required"; return;}
+  localStorage.setItem("dsr_user", u);
+  location.href="index.html";
 }
 </script>
 
