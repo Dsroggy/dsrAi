@@ -1,12 +1,32 @@
-const BACKEND = "https://slow-flies-float.loca.lt";
+/**********************
+ * CONFIG
+ **********************/
+const BACKEND = "https://slow-flies-float.loca.lt"; // 🔴 yahin apna URL
 
+/**********************
+ * AUTH CHECK
+ **********************/
 const user = localStorage.getItem("dsr_user");
-if (!user) location.href = "login.html";
+if (!user) {
+  location.href = "login.html";
+}
 
+/**********************
+ * STATE
+ **********************/
 const chatDiv = document.getElementById("chat");
-let chats = JSON.parse(localStorage.getItem("dsr_chats") || "[]");
-render();
+const input = document.getElementById("msg");
 
+let chats = [];
+try {
+  chats = JSON.parse(localStorage.getItem("dsr_chats")) || [];
+} catch {
+  chats = [];
+}
+
+/**********************
+ * RENDER
+ **********************/
 function render() {
   chatDiv.innerHTML = "";
 
@@ -20,15 +40,20 @@ function render() {
 
     const copyBtn = document.createElement("span");
     copyBtn.textContent = "📋";
-    copyBtn.onclick = () => copy(i);
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(c.text);
+    };
 
     const delBtn = document.createElement("span");
     delBtn.textContent = "🗑️";
-    delBtn.onclick = () => delChat(i);
+    delBtn.onclick = () => {
+      chats.splice(i, 1);
+      save();
+      render();
+    };
 
     actions.appendChild(copyBtn);
     actions.appendChild(delBtn);
-
     msg.appendChild(actions);
     chatDiv.appendChild(msg);
   });
@@ -40,57 +65,23 @@ function save() {
   localStorage.setItem("dsr_chats", JSON.stringify(chats));
 }
 
-function send() {
-  const input = document.getElementById("msg");
-  const m = input.value.trim();
-  if (!m) return;
+render();
 
-  chats.push({ by: "user", text: m });
+/**********************
+ * SEND MESSAGE
+ **********************/
+async function send() {
+  const message = input.value.trim();
+  if (!message) return;
+
+  // UI me user message
+  chats.push({ by: "user", text: message });
   save();
   render();
   input.value = "";
 
-  fetch(BACKEND + "/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: m })
-  })
-    .then(r => r.json())
-    .then(d => {
-      chats.push({ by: "ai", text: d.reply || "No reply" });
-      save();
-      render();
-    })
-    .catch(err => {
-      console.error(err);
-      chats.push({ by: "ai", text: "Backend not responding" });
-      save();
-      render();
-    });
-}
+  console.log("SEND CLICKED");
+  console.log("CALLING:", BACKEND + "/chat");
 
-function copy(i) {
-  navigator.clipboard.writeText(chats[i].text);
-}
-
-function delChat(i) {
-  chats.splice(i, 1);
-  save();
-  render();
-}
-
-function logout() {
-  localStorage.clear();
-  location.href = "login.html";
-}
-
-/* 🎤 Voice */
-function startVoice() {
-  const rec = new (window.SpeechRecognition || webkitSpeechRecognition)();
-  rec.lang = "en-IN";
-  rec.onresult = e => {
-    document.getElementById("msg").value =
-      e.results[0][0].transcript;
-  };
-  rec.start();
-}
+  try {
+    const res
