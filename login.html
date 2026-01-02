@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login | DSR AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Login - DSR AI</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="login-page">
+<body class="center">
 
-<div class="login-box">
-  <img src="logo.png" class="logo">
-  <h2>DSR AI</h2>
+  <div class="login-box">
+    <img src="logo.png" class="logo" />
+    <h2>Welcome to DSR AI</h2>
+    <input id="user" placeholder="Enter username" />
+    <button onclick="login()">Continue</button>
+  </div>
 
-  <input id="username" placeholder="Enter your name">
-  <button onclick="login()">Continue</button>
-
-  <p id="err"></p>
-</div>
-
-<script>
-function login(){
-  const u = document.getElementById("username").value.trim();
-  if(!u){ document.getElementById("err").innerText="Name required"; return;}
-  localStorage.setItem("dsr_user", u);
-  location.href="index.html";
-}
-</script>
+  <script>
+    function login() {
+      const u = document.getElementById("user").value.trim();
+      if (!u) return alert("Enter username");
+      localStorage.setItem("dsr_user", u);
+      location.href = "index.html";
+    }
+  </script>
 
 </body>
 </html>

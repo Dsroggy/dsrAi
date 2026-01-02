@@ -1,34 +1,78 @@
-*{box-sizing:border-box;font-family:Arial;}
-body{margin:0;background:#0f172a;color:#fff}
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0b1220;
+  color: white;
+}
 
-/* LOGIN */
-.login-page{display:flex;justify-content:center;align-items:center;height:100vh}
-.login-box{background:#020617;padding:25px;border-radius:10px;width:90%;max-width:350px;text-align:center}
-.logo{width:70px;margin-bottom:10px}
-.login-box input{width:100%;padding:10px;margin:10px 0;border-radius:6px;border:none}
-.login-box button{width:100%;padding:10px;background:#22c55e;border:none;border-radius:6px}
-#err{color:red}
+.center {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 
-/* CHAT */
-.chat-app{max-width:600px;margin:auto;height:100vh;display:flex;flex-direction:column}
-.top{display:flex;align-items:center;gap:10px;padding:10px;background:#020617}
-.logo-sm{width:30px}
-.top button{margin-left:auto;background:#ef4444;border:none;color:#fff;padding:5px 10px;border-radius:5px}
+.login-box {
+  background: #111;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
 
-.chat{flex:1;overflow:auto;padding:10px}
-.msg{margin:6px 0;padding:8px;border-radius:8px;max-width:80%}
-.user{background:#2563eb;margin-left:auto}
-.ai{background:#334155}
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
 
-.actions{font-size:12px;text-align:right}
-.actions span{cursor:pointer;margin-left:5px}
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
 
-/* INPUT */
-.input-bar{display:flex;padding:8px;background:#020617}
-.input-bar input{flex:1;padding:10px;border-radius:6px;border:none}
-.input-bar button{margin-left:5px;border:none;border-radius:6px;padding:8px}
+.logo {
+  width: 120px;
+}
+.logo-small {
+  width: 40px;
+}
 
-/* MOBILE */
-@media(max-width:600px){
-  .chat-app{width:100%}
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #111;
+}
+
+.chat {
+  height: calc(100vh - 130px);
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.msg {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.msg.user {
+  background: #2563eb;
+  margin-left: auto;
+}
+
+.msg.ai {
+  background: #374151;
+}
+
+.actions span {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.input-box {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
 }

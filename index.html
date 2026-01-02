@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8" />
   <title>DSR AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="chat-app">
+<div class="top">
+  <img src="logo.png" class="logo-small" />
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <div class="top">
-    <img src="logo.png" class="logo-sm">
-    <span>DSR AI</span>
-    <button onclick="logout()">Logout</button>
-  </div>
+<div id="chat" class="chat"></div>
 
-  <div id="chat" class="chat"></div>
-
-  <div class="input-bar">
-    <input id="msg" placeholder="Type message">
-    <button onclick="startVoice()">🎤</button>
-    <input type="file" id="file" hidden>
-    <button onclick="document.getElementById('file').click()">📁</button>
-    <button type="button" onclick="send()">➤</button>
-
-  </div>
-
+<div class="input-box">
+  <input id="msg" placeholder="Type a message..." />
+  <button onclick="send()">Send</button>
+  <button onclick="startVoice()">🎤</button>
 </div>
 
 <script src="app.js"></script>
